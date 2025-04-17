@@ -1,14 +1,17 @@
 let todoData
 let currentListId  // 默认显示"我的一天"
 
-
 // DOM元素
 const myDayListBtn = document.getElementById('myDayList')
 const importantListBtn = document.getElementById('importantList')
 const taskListBtn = document.getElementById('tasksList')
 
-const defaultLists = document.querySelector('.default-lists')
+
+// const allLists = document.querySelectorAll('.default-lists li, .user-lists li')
+// const defaultLists = document.querySelector('.default-lists')
 const userLists = document.querySelector('.user-lists')
+
+const sidebar = document.querySelector('.sidebar')
 
 const addTaskBtn = document.querySelector('.add-task-form .btn-add')
 const addTaskForm = document.querySelector('.add-task-form')
@@ -50,7 +53,18 @@ function loadData() {
 function init() {
     todoData = loadData()
     // currentListId = todoData.currentListId
+    // const allLists = todoData.lists
     renderTasks()
+    renderLists()
+
+    //切换任务列表+事件委托
+    sidebar.addEventListener('click', (e) => {
+        const listItem = e.target.closest('li[data-id]')
+        if (!listItem) return
+
+        todoData.currentListId = listItem.dataset.id
+        renderTasks()
+    })
 }
 
 //渲染任务列表
@@ -193,7 +207,7 @@ function renderLists() {
     //清除任务列表
     userLists.innerHTML = ``
 
-    //获取列表,并添加DOM
+    //获取自定义列表，添加入data保存,并添加DOM
     const Lists = Object.values(todoData.lists)
         .filter(list => list.type && list.type.includes('user'))
     console.log(Lists)
@@ -214,6 +228,16 @@ function renderListDom(list) {
 
 }
 
+
+
+//切换列表
+//获取所有列表元素，绑定点击事件，切换 todoData.currentListId 为当前元素ID
+
+
+
+
+//切换右侧界面标题、界面颜色
+//render任务列表
 
 //初始化应用
 document.addEventListener('DOMContentLoaded', init);
