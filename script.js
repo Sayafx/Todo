@@ -12,6 +12,7 @@ const taskListBtn = document.getElementById('tasksList')
 const userLists = document.querySelector('.user-lists')
 
 const sidebar = document.querySelector('.sidebar')
+const addListBtn = document.querySelector('.newls')
 
 const addTaskBtn = document.querySelector('.add-task-form .btn-add')
 const addTaskForm = document.querySelector('.add-task-form')
@@ -229,15 +230,37 @@ function renderListDom(list) {
 }
 
 
-
-//切换列表
-//获取所有列表元素，绑定点击事件，切换 todoData.currentListId 为当前元素ID
-
-
-
-
 //切换右侧界面标题、界面颜色
-//render任务列表
+//新建任务列表
+
+addListBtn.addEventListener('click', () => {
+    //唯一listID
+    const listId = 'list-' + Date.now()
+    //默认标题
+    const defaultTitle = '无标题列表' 
+    let title = defaultTitle
+    //检测是否有重复标题，如果重复末尾加(counter)
+    let counter = 1
+    const existingTitles = Object.values(todoData.lists).map(list => list.title)
+
+    while (existingTitles.includes(title)) {
+        title = `${defaultTitle}（${counter}）`
+        counter++
+    }
+
+    //创建新列表数据结构
+    const newList = {
+        title,
+        listId,
+        type: 'user'
+    }
+    //保存到数据
+    todoData.lists[listId] = newList
+    saveData()
+    renderLists()
+
+    //聚焦输入框更改名称
+})
 
 //初始化应用
 document.addEventListener('DOMContentLoaded', init);
