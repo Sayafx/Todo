@@ -30,8 +30,6 @@ const defaultData = {
         myDayList: { listId:'myDayList', title: '我的一天', type: 'default'},
         importantList: { listId:'importantList', title: '重要', type: 'default'},
         tasksList: { listId:'tasksList', title: '任务', type: 'default'},
-        newList: { listId:'list-' + Date.now(), title: '自定义列表', type: 'user'},
-        newList2: { listId:'list-2' + Date.now(), title: '自定义列表2', type: 'user'},
     },
     tasks: {}
 }
@@ -58,13 +56,22 @@ function init() {
     renderTasks()
     renderLists()
 
-    //切换任务列表+事件委托
+    //事件委托
+    //所有列表切换任务列表+事件委托
     sidebar.addEventListener('click', (e) => {
         const listItem = e.target.closest('li[data-id]')
         if (!listItem) return
 
         todoData.currentListId = listItem.dataset.id
         renderTasks()
+    })
+
+    //user-list 添加双击事件
+    userLists.addEventListener('dblclick', (e) => {
+        const listItem = e.target.closest('li[data-id]')
+        if (!listItem) return
+        console.log('已经双击了' + listItem.innerHTML)
+        editListName(listItem)
     })
 }
 
@@ -221,9 +228,8 @@ function renderListDom(list) {
     const li = document.createElement('li')
     li.dataset.id = list.listId
     li.className = 'user-ls'
-    li.innerHTML = `
-            ${list.title}
-    `
+    li.textContent = list.title
+    
     userLists.appendChild(li)
     return li
 
@@ -259,8 +265,53 @@ addListBtn.addEventListener('click', () => {
     saveData()
     renderLists()
 
-    //聚焦输入框更改名称
+    //找到新建列表，并自动进入编辑状态
+    const newListItem = document.querySelector(`li[data-id="${listId}"]`)
+    // const newListItem = document.querySelector(`#${listId}`)
+    if (newListItem) {
+        editListName(newListItem)
+    }
+
 })
+
+//编辑列表名称函数
+function editListName(listItem) {
+    const listId = listItem.dataset.id
+    const currentText = listItem.textContent.trim()
+    //创建输入框
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.value = currentText
+    input.className = 'list-edit-input'
+    
+    //将list名称换为输入框内容
+    listItem.innerHTML = ``
+    listItem.appendChild(input)
+    input.focus()
+
+    //保存内容函数，更新数据并恢复显示
+    const saveListEdit = () => {
+        const newTitle = input.value.trim()
+        if (newTitle && newTitle !== currentText) {
+            todoData.lists[listId].title = newTitle
+            saveData()
+        }
+        listItem.textContent = newTitle || currentText
+    }
+
+    //回车调用保存
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            saveListEdit()
+        }
+    })
+
+    //失去焦点调用保存
+    input.addEventListener('blur', saveListEdit)
+}
+
+
+
 
 //初始化应用
 document.addEventListener('DOMContentLoaded', init);

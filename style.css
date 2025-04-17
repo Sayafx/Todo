@@ -94,6 +94,10 @@ ul {
     color: var(--main-color);
 }
 
+.list-edit-input {
+    background-color: #fff;
+}
+
 .newls {
     position: absolute;
     bottom: 2%;
