@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Todo</title>
+</head>
+<body>
+    <div class="container">
+
+        <div class="sidebar">
+            <div class="user-info">🌸 Flosover</div>
+            <hr>
+            <div class="lists">
+                <ul class="default-lists">
+                    <li class="default-ls" data-id="myDayList">
+                        <i class="fa-regular fa-sun fa-fw"></i>
+                        我的一天</li>
+                    <li class="default-ls" data-id="importantList">
+                        <i class="fa-regular fa-star fa-fw"></i>
+                        重要</li>
+                    <li class="default-ls" data-id="tasksList">
+                        <i class="fa-regular fa-calendar-check fa-fw"></i>
+                        任务</li>
+                </ul>
+                <hr>
+                <ul class="user-lists">
+                    <li class="user-ls">前端</li>
+                    <li class="user-ls">后端</li>
+                </ul>
+            </div>
+            <div class="newls">
+                <i class="btn-add">+</i>
+                新建列表
+            </div>
+        </div>
+
+        <div class="task-panel" id="myday">
+            <div class="list-title-container">
+                <h3 class="list-title">我的一天</h3>
+                <div class="calender-date-text">3月30日 星期日</div>
+            </div>
+            <ul class="task-ls" id="undone-ls">
+                <li class="task">
+                    <i class="fa-solid fa-check"></i>
+                    <span class="task-name">todo 1</span>
+                </li>
+                <li class="task">
+                    <i class="fa-solid fa-check"></i>
+                    <span class="task-name">todo 2</span>
+                </li>
+            </ul>
+
+            <div class="done-label">已完成</div>
+
+            <ul class="task-ls" id="done-ls">
+                <li class="task done">
+                    <i class="fa-solid fa-check"></i>
+                    <span class="task-name">todo 3</span>
+                </li>
+                <li class="task done">
+                    <i class="fa-solid fa-check"></i>
+                    <span class="task-name">todo 4</span>
+                </li>
+            </ul>
+            <form class="add-task-form">
+                <i class="btn-add">+</i>
+                <input type="text" class="input" placeholder="添加任务" autocomplete="off">
+            </form>
+                
+            
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --main-color: #5d70bf;
+    --main-deeper-color: rgba(82, 90, 162, 0.9);
+
+}
+
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: #efefef;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 80%;
+    height: 70%;
+    max-width: 1600px;
+    max-height: 1000px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px;
+}
+
+/* 侧边栏 */
+
+.sidebar {
+    background-color: rgba(220, 220, 220, 0.9);
+    position: relative;
+    flex: 1 250px;
+    /* display: flex;
+    flex-direction: column; */
+    max-width: 300px;
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+.user-info {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+ul {
+    list-style-type: none;
+}
+
+/* lists */
+
+.sidebar ul {
+    margin: 15px 0;
+    padding-left: 0.5rem;
+}
+
+.sidebar li {
+    margin: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* default list icon  */
+
+#myday-ls .fa-sun {
+    color: var(--main-color);
+}
+
+#important-ls .fa-star {
+    color: #ac395e;
+}
+
+#task-ls .fa-calendar-check {
+    color: var(--main-color);
+}
+
+/* user-list */
+
+.sidebar .user-ls::before {
+    content: '\f03a';
+    font-weight: 600;
+    font-family: 'Font Awesome 5 Free';
+    width: 1.25em;
+    display: inline-block;
+    text-align: center;
+    color: var(--main-color);
+}
+
+.newls {
+    position: absolute;
+    bottom: 2%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.btn-add {
+    font-style: normal;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* 任务容器 */
+
+.task-panel {
+    background-color: var(--main-color);
+    flex: 5 800px;
+    position: relative;
+    padding: 20px;
+}
+
+.list-title-container {
+    margin: 10px 0 15px;
+    color: #fff;
+}
+
+.list-title {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.calender-date-text {
+    font-size: 0.8rem;
+    margin-left: 0.1rem;
+}
+
+.task-ls {
+    padding-left: 0;
+    margin: 5px 0;
+}
+
+
+.task {
+    background-color: #fff;
+    width: 100%;
+    margin: 1px 0;
+    padding: 0.5rem;
+    border-radius: 3px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.fa-check {
+    background-color: #fff;
+    color: #fff;
+    font-size: 0.5rem;
+    font-weight: bolder;
+    -webkit-text-stroke: 1px #fff; /* 宽度+颜色 */
+    text-stroke: 1px #fff; /* 标准写法 */
+    padding: 0.2rem;
+    border: #000 2px solid;
+    border-radius: 50%;
+
+}
+
+.fa-check:hover {
+    color: #767678;
+    -webkit-text-stroke: 1px #767678; /* 宽度+颜色 */
+    text-stroke: 1px #767678; /* 标准写法 */
+}
+
+.task-name {
+    display: inline-block;
+    font-size: 0.8rem;
+}
+
+.fa-check, .task-name {
+    margin: 0.1rem 0.5rem;
+}
+
+/* 这里的伪类，最后需要改成用js添加元素 */
+.task-name::after {
+    content: '任务';
+    display: block;
+    color: #767678;
+    font-size: 0.7rem;
+}
+
+
+.done-label {
+    background-color: var(--main-deeper-color);
+    color: #fff;
+    width:fit-content;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+    margin: 0.6rem 0;
+}
+
+.done .task-name {
+    color: #767678;
+    text-decoration: line-through;
+} 
+
+.done .fa-check {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.add-task-form {
+    position: absolute;
+    bottom: 2%;
+    background-color: var(--main-deeper-color);
+    width: calc(100% - 40px);
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.add-task-form .btn-add {
+    color: #fff;
+}
+
+.add-task-form .input {
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.add-task-form .input:focus {
+    outline: none;
+}
+
+.add-task-form .input::placeholder {
+    color: #fff;
+}
