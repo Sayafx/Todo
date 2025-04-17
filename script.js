@@ -18,6 +18,9 @@ const addTaskBtn = document.querySelector('.add-task-form .btn-add')
 const addTaskForm = document.querySelector('.add-task-form')
 const addTaskInput = document.querySelector('.add-task-form .input')
 
+const taskPanelTitle = document.querySelector('.list-title')
+const calenderDateText = document.querySelector('.calender-date-text')
+
 const tasks = document.querySelectorAll('.task')
 const doneList = document.getElementById('done-ls')
 const undoneList = document.getElementById('undone-ls')
@@ -55,6 +58,7 @@ function init() {
     // const allLists = todoData.lists
     renderTasks()
     renderLists()
+    renderTaskPanelTitle()
 
     //事件委托
     //所有列表切换任务列表+事件委托
@@ -63,7 +67,10 @@ function init() {
         if (!listItem) return
 
         todoData.currentListId = listItem.dataset.id
+        saveData()
         renderTasks()
+        renderTaskPanelTitle()
+
     })
 
     //user-list 添加双击事件
@@ -75,7 +82,39 @@ function init() {
     })
 }
 
-//渲染任务列表
+//任务列表标题
+
+function renderTaskPanelTitle() {
+
+
+    taskPanelTitle.textContent = todoData.lists[todoData.currentListId].title
+    
+    if (todoData.currentListId === 'myDayList') {
+        //显示正确的日期
+        calenderDateText.style.display = 'block'; // 恢复显示
+        calenderDateText.textContent = getFormattedDate();
+    } else {
+        // 删除calenderDateText这个元素
+        // console.log('else')
+        calenderDateText.style.display = 'none';
+        // calenderDateText.remove()
+    }
+    // calenderDateText
+}
+
+function getFormattedDate() {
+    const now = new Date();
+    const month = now.getMonth() + 1; // 月份从0开始，所以要+1
+    const date = now.getDate();
+    const day = now.getDay(); // 星期几（0-6）
+    
+    // 中文星期数组
+    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    
+    return `${month}月${date}日 ${weekdays[day]}`;
+}
+
+//渲染任务sidebar列表
 
 function renderTasks() {
     //清除任务列表
