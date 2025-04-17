@@ -14,6 +14,8 @@ const userLists = document.querySelector('.user-lists')
 const sidebar = document.querySelector('.sidebar')
 const addListBtn = document.querySelector('.newls')
 
+const doneLabel = document.querySelector('.done-label')
+
 const addTaskBtn = document.querySelector('.add-task-form .btn-add')
 const addTaskForm = document.querySelector('.add-task-form')
 const addTaskInput = document.querySelector('.add-task-form .input')
@@ -134,6 +136,13 @@ function renderTasks() {
             })
         }
 
+    //如果没有已完成的任务，隐藏`已完成`
+    const currentListDoneTasks = currentListTasks.filter(task => task.done)
+    if (currentListDoneTasks.length) {
+        doneLabel.style.display = 'block';
+    } else {
+        doneLabel.style.display = 'none';
+    }
 }
 
 function renderTaskDom(task) {
@@ -173,7 +182,7 @@ function handelTaskClick(e) {
     renderTasks()
 }
 
-// 根据任务完成状态，添加类名
+
 function taskStatus(taskEl) {
 
     //获取任务ID
