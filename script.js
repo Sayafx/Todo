@@ -165,10 +165,15 @@ function renderTaskDom(task) {
     const li = document.createElement('li')
     li.className = 'task'
     li.dataset.id = task.id
+    const listId = task.listIds[0]
+    const listTitle = todoData.lists[listId].title
     
     li.innerHTML = `
         <i class="fa-solid fa-check"></i>
-        <span class="task-name">${task.title}</span>
+        <div class="task-name-container">
+        <div class="task-name">${task.title}</div>
+        <div class="task-list-name">${listTitle}</div>
+        </div>
         <i class="fa-regular fa-star star-btn"></i>
     `
     const star = li.querySelector('.star-btn')

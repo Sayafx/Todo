@@ -183,19 +183,17 @@ ul {
     text-stroke: 1px #767678; /* 标准写法 */
 }
 
-.task-name {
+.task-name-container {
     display: inline-block;
     font-size: 0.8rem;
 }
 
-.fa-check, .task-name {
+.fa-check, .task-name-container {
     margin: 0.1rem 0.5rem;
 }
 
 /* 这里的伪类，最后需要改成用js添加元素 */
-.task-name::after {
-    content: '任务';
-    display: block;
+.task-list-name {
     color: #767678;
     font-size: 0.7rem;
 }
