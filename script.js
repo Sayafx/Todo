@@ -392,6 +392,7 @@ function editListName(listItem) {
             saveData()
         }
         listItem.textContent = newTitle || currentText
+        renderTaskPanelTitle()
     }
 
     //回车调用保存
