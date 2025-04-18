@@ -124,25 +124,41 @@ function renderTasks() {
     undoneList.innerHTML = ``
 
     //获取当前列表的任务并添加DOM
-    const currentListTasks = Object.values(todoData.tasks)
-        .filter(task => task.listIds && task.listIds.includes(todoData.currentListId))
-    console.log(currentListTasks)
-    //没有匹配到，不渲染任务
-    if (!currentListTasks) return
-    // 匹配到任务，渲染任务
-        else{
-            currentListTasks.forEach(task => {
-                renderTaskDom(task)
-            })
-        }
-
-    //如果没有已完成的任务，隐藏`已完成`
-    const currentListDoneTasks = currentListTasks.filter(task => task.done)
-    if (currentListDoneTasks.length) {
-        doneLabel.style.display = 'block';
-    } else {
-        doneLabel.style.display = 'none';
+    const currentListId = todoData.currentListId
+    if (currentListId === 'importantList') {
+        const currentListTasks = Object.values(todoData.tasks)
+            .filter(task => task.important)
+        toRenderTasks(currentListTasks)
     }
+    // else if (currentListId === 'myDayList') {
+    //     const currentListTasks = Object.values(todoData.tasks)
+    //         .filter(task => task.myday)
+    //     toRenderTasks(currentListTasks)
+    // }
+        else {
+        const currentListTasks = Object.values(todoData.tasks)
+            .filter(task => task.listIds && task.listIds.includes(todoData.currentListId))
+        toRenderTasks(currentListTasks)
+    }
+
+    //没有匹配到，不渲染任务
+
+    function toRenderTasks(currentListTasks) {
+        if (!currentListTasks) return
+        // 匹配到任务，渲染任务
+            else{
+                currentListTasks.forEach(task => {
+                    renderTaskDom(task)
+                })
+            }
+        //如果没有已完成的任务，隐藏`已完成`
+        const currentListDoneTasks = currentListTasks.filter(task => task.done)
+        if (currentListDoneTasks.length) {
+            doneLabel.style.display = 'block';
+        } else {
+            doneLabel.style.display = 'none';
+        }
+        }
 }
 
 function renderTaskDom(task) {
@@ -153,7 +169,9 @@ function renderTaskDom(task) {
     li.innerHTML = `
         <i class="fa-solid fa-check"></i>
         <span class="task-name">${task.title}</span>
+        <i class="fa-regular fa-star star-btn"></i>
     `
+    const star = li.querySelector('.star-btn')
 
     if (task.done) {
         //已完成，添加 done 类名
@@ -163,6 +181,14 @@ function renderTaskDom(task) {
         //未完成，删除 done 类名
         li.classList.remove('done')
         undoneList.insertBefore(li, undoneList.firstChild)
+    }
+
+    if (task.important) {
+        star.classList.remove('fa-regular')
+        star.classList.add('fa-solid')
+    } else {
+        star.classList.remove('fa-solid')
+        star.classList.add('fa-regular')
     }
 
     return li
@@ -175,26 +201,31 @@ undoneList.addEventListener('click', handelTaskClick)
 doneList.addEventListener('click', handelTaskClick)
 
 function handelTaskClick(e) {
-    const checkEl = e.target.closest('.fa-check')
-    if (!checkEl) return
-    const taskEl = checkEl.closest('.task')
-    taskStatus(taskEl)
+    const taskEl = e.target.closest('.task')
+    if (!taskEl) return
+    const taskId = taskEl.dataset.id
+    const task = todoData.tasks[taskId]
+    if (!task) return
+
+    if (e.target.classList.contains('fa-check')) {
+        task.done = !task.done
+        saveData()
+    } else if (e.target.classList.contains('star-btn')) {
+        task.important = !task.important
+        console.log('星标该任务')
+        saveData()
+    } else if (e.target.classList.contains('task-name')) {
+        console.log('重命名该任务')
+    } 
+    else if (e.target === taskEl) {
+        console.log('打开该任务侧边栏')
+    }
+
     renderTasks()
 }
 
 
-function taskStatus(taskEl) {
 
-    //获取任务ID
-    const taskId = taskEl.dataset.id
-    //获取任务对象数据结构
-    const task = todoData.tasks[taskId]
-    //确定任务存在
-    if (!task) return
-
-    task.done = !task.done
-    saveData()
-}
 
 // 任务拖拽排序
 
@@ -210,7 +241,7 @@ function taskStatus(taskEl) {
 // })
 
 
-// 添加新任务
+// 添加新任务/新建任务
 
 addTaskBtn.addEventListener('click',  (e) => {
     e.preventDefault()
@@ -221,22 +252,25 @@ addTaskForm.addEventListener('submit', (e) => {
     addNewTask()
 })
 
-function addNewTask(taskName) {
+// function addNewTask(taskName) {
+function addNewTask() {
     loadData()
     let taskTitle = addTaskInput.value.trim()
 
-    if (taskName) {
-        taskTitle = taskName
-    }
+    // if (taskName) {
+    //     taskTitle = taskName
+    // }
 
     if (!taskTitle) return //空任务名不添加
 
+    let myday = todoData.currentListId === 'myDayList'
 
     const newTask = {
         id: 'task-' + Date.now(),
         title: taskTitle,
         done: false,
         important: false,
+        myday,
         dueDate: null,
         listIds: [todoData.currentListId, 'tasksList'], // 添加到当前列表和总任务列表
         createdAt: new Date().toISOString(),

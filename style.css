@@ -66,6 +66,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    cursor: pointer;
 }
 
 /* default list icon  */
@@ -188,6 +189,15 @@ ul {
     display: block;
     color: #767678;
     font-size: 0.7rem;
+}
+
+.task .star-btn {
+    position: absolute;
+    right: 1rem;
+}
+
+.task .fa-solid {
+    color: var(--main-deeper-color);
 }
 
 
