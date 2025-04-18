@@ -130,11 +130,11 @@ function renderTasks() {
             .filter(task => task.important)
         toRenderTasks(currentListTasks)
     }
-    // else if (currentListId === 'myDayList') {
-    //     const currentListTasks = Object.values(todoData.tasks)
-    //         .filter(task => task.myday)
-    //     toRenderTasks(currentListTasks)
-    // }
+    else if (currentListId === 'myDayList') {
+        const currentListTasks = Object.values(todoData.tasks)
+            .filter(task => task.myday)
+        toRenderTasks(currentListTasks)
+    }
         else {
         const currentListTasks = Object.values(todoData.tasks)
             .filter(task => task.listIds && task.listIds.includes(todoData.currentListId))
@@ -268,20 +268,28 @@ function addNewTask() {
 
     if (!taskTitle) return //空任务名不添加
 
-    let myday = todoData.currentListId === 'myDayList'
+    const currentListId = todoData.currentListId
+    let myday = currentListId === 'myDayList'
+    let important = currentListId === 'importantList'
+
 
     const newTask = {
         id: 'task-' + Date.now(),
         title: taskTitle,
         done: false,
-        important: false,
+        important,
         myday,
         dueDate: null,
-        listIds: [todoData.currentListId, 'tasksList'], // 添加到当前列表和总任务列表
+        listIds: [currentListId, 'tasksList'], // 添加到当前列表和总任务列表
         createdAt: new Date().toISOString(),
         doneAt: null
     }
 
+    if (currentListId === 'importantList' || currentListId === 'myDayList') {
+        newTask.listIds.splice(0, 1)
+        // console.log('已删除当前列表id')
+    }
+    
     todoData.tasks[newTask.id] = newTask
 
     renderTaskDom(newTask)
