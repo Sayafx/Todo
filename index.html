@@ -16,13 +16,13 @@
             <div class="lists">
                 <ul class="default-lists">
                     <li class="default-ls" data-id="myDayList">
-                        <i class="fa-regular fa-sun fa-fw"></i>
+                        <i class="fa-regular fa-sun fa-fw " id="mydayls-icon"></i>
                         我的一天</li>
                     <li class="default-ls" data-id="importantList">
-                        <i class="fa-regular fa-star fa-fw"></i>
+                        <i class="fa-regular fa-star fa-fw" id="importantls-icon"></i>
                         重要</li>
                     <li class="default-ls" data-id="tasksList">
-                        <i class="fa-regular fa-calendar-check fa-fw"></i>
+                        <i class="fa-regular fa-calendar-check fa-fw" id="taskls-icon"></i>
                         任务</li>
                 </ul>
                 <hr>
@@ -73,10 +73,44 @@
                 <i class="btn-add">+</i>
                 <input type="text" class="input" placeholder="添加任务" autocomplete="off">
             </form>
-                
-            
         </div>
 
+        <div class="right-sidebar">
+            <div class="right-sidebar-top-container">
+                <i class="fa-solid fa-check"></i>
+                <h3 class="selected-task-name">右边栏</h3>
+                <i class="fa-regular fa-star star-btn"></i>
+            </div>
+            <div class="additions">
+                <ul class="steps-container">
+                    <li class="step-tiem">step1</li>
+                    <li class="step-tiem">step2</li>
+                    <li class="step-tiem">step3</li>
+                    <li class="step-tiem">step4</li>
+                    <li class="step-tiem">step5</li>
+                </ul>
+                <form class="add-step-form">
+                    <i class="btn-add">+</i>
+                    <input type="text" class="input" placeholder="下一步" autocomplete="off">
+                </form>
+
+                <div class="add-myday-container">
+                    <i class="fa-regular fa-sun fa-fw "></i>
+                    添加到我的一天
+                </div>
+                <div class="add-files">
+                    <i class="fa-solid fa-link"></i>
+                    添加文件
+                </div>
+                <textarea type="text" class="input add-remarks" placeholder="添加备注" autocomplete="off"></textarea>
+            </div>
+
+            <div class="right-sidebar-bottom-container">
+                <i class="fold">＞</i>
+                <span class="create-time">创建于xx</span>
+                <i class="delete-btn">X</i>
+            </div>
+        
     </div>
 
 
