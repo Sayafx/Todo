@@ -27,6 +27,16 @@ const tasks = document.querySelectorAll('.task')
 const doneList = document.getElementById('done-ls')
 const undoneList = document.getElementById('undone-ls')
 
+
+//右边栏DOM
+const rightSidebar = document.querySelector('.right-sidebar')
+const selectedTaskTitle = rightSidebar.querySelector('.selected-task-name')
+const addStepBtn = rightSidebar.querySelector('.btn-add')
+const addStepInput = rightSidebar.querySelector('input')
+const addMydayBtn = rightSidebar.querySelector('.add-myday-container')
+const addFileBtn = rightSidebar.querySelector('.add-files-container')
+const rightSidebarDeleteBtn = rightSidebar.querySelector('.delete-btn')
+
 // 初始化数据结构
 
 const defaultData = { 
@@ -154,9 +164,9 @@ function renderTasks() {
         //如果没有已完成的任务，隐藏`已完成`
         const currentListDoneTasks = currentListTasks.filter(task => task.done)
         if (currentListDoneTasks.length) {
-            doneLabel.style.display = 'block';
+            doneLabel.style.visibility = 'visible'
         } else {
-            doneLabel.style.display = 'none';
+            doneLabel.style.visibility = 'hidden'
         }
         }
 }
@@ -188,6 +198,12 @@ function renderTaskDom(task) {
         undoneList.insertBefore(li, undoneList.firstChild)
     }
 
+    if (task.selected) {
+        li.classList.add('task-selected')
+    } else {
+        li.classList.remove('task-selected')
+    }
+
     if (task.important) {
         star.classList.remove('fa-regular')
         star.classList.add('fa-solid')
@@ -200,7 +216,8 @@ function renderTaskDom(task) {
 
 }
 
-// 事件处理：任务完成切换
+// Task单击事件委托
+
 
 undoneList.addEventListener('click', handelTaskClick)
 doneList.addEventListener('click', handelTaskClick)
@@ -213,6 +230,7 @@ function handelTaskClick(e) {
     if (!task) return
 
     if (e.target.classList.contains('fa-check')) {
+        // 事件处理：任务完成切换
         task.done = !task.done
         saveData()
     } else if (e.target.classList.contains('star-btn')) {
@@ -223,7 +241,7 @@ function handelTaskClick(e) {
         console.log('重命名该任务')
     } 
     else if (e.target === taskEl) {
-        console.log('打开该任务侧边栏')
+        handleTaskSelection(task)
     }
 
     renderTasks()
@@ -282,7 +300,9 @@ function addNewTask() {
         dueDate: null,
         listIds: [currentListId, 'tasksList'], // 添加到当前列表和总任务列表
         createdAt: new Date().toISOString(),
-        doneAt: null
+        doneAt: null,
+        selected: false,
+        steps: [],
     }
 
     if (currentListId === 'importantList' || currentListId === 'myDayList') {
@@ -304,7 +324,7 @@ function addNewTask() {
 
 // ========== 切换任务列表 ==========
 
-//渲染侧边栏列表
+//渲染左侧边栏列表
 
 function renderLists() {
     //清除任务列表
@@ -331,7 +351,9 @@ function renderListDom(list) {
 }
 
 
-//切换右侧界面标题、界面颜色
+//切换任务界面标题、界面颜色 todo
+
+
 //新建任务列表
 
 addListBtn.addEventListener('click', () => {
@@ -407,7 +429,32 @@ function editListName(listItem) {
 }
 
 
+//==========右边栏==========
 
+function handleTaskSelection(clickedTask) {
+    //先清除所有其他任务的选择状态
+    Object.values(todoData.tasks).forEach(task => {
+        if (task.id !== clickedTask.id && task.selected) {
+            task.selected = false
+        }
+    })
+
+    clickedTask.selected = !clickedTask.selected
+    saveData()
+    renderRightSidebar(clickedTask)
+}
+
+function renderRightSidebar(task) {
+    let isSelected = task.selected
+    if (isSelected) {
+        rightSidebar.style.display = 'flex'
+        document.querySelector(`.task[data-id="${task.id}"]`)
+            .classList.add('task-selected');
+    } else {
+        rightSidebar.style.display = 'none'
+    }
+    selectedTaskTitle.innerHTML = `${task.title}`
+}
 
 //初始化应用
 document.addEventListener('DOMContentLoaded', init);
